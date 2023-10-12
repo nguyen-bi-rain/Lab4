@@ -58,7 +58,6 @@ F:\document\Ki 5\Lap Trinh Web\ThucHanh4\ThucHanh4\obj\Debug\net7.0\refint\ThucH
 F:\document\Ki 5\Lap Trinh Web\ThucHanh4\ThucHanh4\obj\Debug\net7.0\ThucHanh4.pdb
 F:\document\Ki 5\Lap Trinh Web\ThucHanh4\ThucHanh4\obj\Debug\net7.0\ThucHanh4.genruntimeconfig.cache
 F:\document\Ki 5\Lap Trinh Web\ThucHanh4\ThucHanh4\obj\Debug\net7.0\ref\ThucHanh4.dll
-F:\document\Ki 5\Lap Trinh Web\ThucHanh4\ThucHanh4\bin\Debug\net7.0\Microsoft.AspNetCore.Diagnostics.EntityFrameworkCore.dll
 F:\document\Ki 5\Lap Trinh Web\ThucHanh4\ThucHanh4\bin\Debug\net7.0\Microsoft.AspNetCore.Razor.Language.dll
 F:\document\Ki 5\Lap Trinh Web\ThucHanh4\ThucHanh4\bin\Debug\net7.0\Microsoft.Bcl.AsyncInterfaces.dll
 F:\document\Ki 5\Lap Trinh Web\ThucHanh4\ThucHanh4\bin\Debug\net7.0\Microsoft.Build.dll
@@ -243,3 +242,12 @@ F:\document\Ki 5\Lap Trinh Web\ThucHanh4\ThucHanh4\bin\Debug\net7.0\runtimes\uni
 F:\document\Ki 5\Lap Trinh Web\ThucHanh4\ThucHanh4\bin\Debug\net7.0\runtimes\win\lib\net6.0\System.Drawing.Common.dll
 F:\document\Ki 5\Lap Trinh Web\ThucHanh4\ThucHanh4\bin\Debug\net7.0\runtimes\win\lib\net6.0\System.Security.Cryptography.ProtectedData.dll
 F:\document\Ki 5\Lap Trinh Web\ThucHanh4\ThucHanh4\bin\Debug\net7.0\runtimes\win\lib\net6.0\System.Windows.Extensions.dll
+F:\document\Ki 5\Lap Trinh Web\ThucHanh4\ThucHanh4\bin\Debug\net7.0\Azure.Core.dll
+F:\document\Ki 5\Lap Trinh Web\ThucHanh4\ThucHanh4\bin\Debug\net7.0\Azure.Identity.dll
+F:\document\Ki 5\Lap Trinh Web\ThucHanh4\ThucHanh4\bin\Debug\net7.0\Microsoft.Extensions.DependencyModel.dll
+F:\document\Ki 5\Lap Trinh Web\ThucHanh4\ThucHanh4\bin\Debug\net7.0\Microsoft.Identity.Client.Extensions.Msal.dll
+F:\document\Ki 5\Lap Trinh Web\ThucHanh4\ThucHanh4\bin\Debug\net7.0\Microsoft.IdentityModel.Abstractions.dll
+F:\document\Ki 5\Lap Trinh Web\ThucHanh4\ThucHanh4\bin\Debug\net7.0\Microsoft.SqlServer.Server.dll
+F:\document\Ki 5\Lap Trinh Web\ThucHanh4\ThucHanh4\bin\Debug\net7.0\Mono.TextTemplating.dll
+F:\document\Ki 5\Lap Trinh Web\ThucHanh4\ThucHanh4\bin\Debug\net7.0\System.CodeDom.dll
+F:\document\Ki 5\Lap Trinh Web\ThucHanh4\ThucHanh4\bin\Debug\net7.0\System.Memory.Data.dll

@@ -15,10 +15,20 @@ namespace ThucHanh4.Controllers
             _context = context;
         }
 
-        public IActionResult Index()
+        public IActionResult Index(int? mid)
         {
-            var learners = _context.Learners.Include(m => m.Major).ToList();
-            return View(learners);
+            if(mid == null)
+            {
+                var learners = _context.Learners.Include(m => m.Major).ToList();
+                return View(learners);
+            }
+            else
+            {
+                var learners = _context.Learners.Where(l => l.MajorID == mid).Include(m => m.Major).ToList();
+                return View(learners);
+            }
+            
+            
         }
         public IActionResult Create()
         {
@@ -115,7 +125,7 @@ namespace ThucHanh4.Controllers
         [HttpPost]
         [ValidateAntiForgeryToken]
         public async Task<IActionResult> Edit(int id, [Bind("FirstMidName,LastName,MajorID,EnrollmentDate")] Learner learner)
-        {
+        {   
             learner.LearnerID = id;
             if (id != learner.LearnerID)
             {
@@ -146,6 +156,12 @@ namespace ThucHanh4.Controllers
         private bool LearnerExist(int id)
         {
             return (_context.Learners?.Any(e => e.LearnerID == id)).GetValueOrDefault();
+        }
+
+        public IActionResult LearnerByMajorID(int mid)
+        {
+            var learners = _context.Learners.Where(l => l.MajorID == mid).Include(m => m.Major).ToList();
+            return PartialView("LearnerTable", learners);
         }
     }
 }
