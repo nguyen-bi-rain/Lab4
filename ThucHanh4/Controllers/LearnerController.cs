@@ -3,6 +3,7 @@ using Microsoft.AspNetCore.Mvc.Rendering;
 using Microsoft.EntityFrameworkCore;
 using ThucHanh4.Data;
 using ThucHanh4.Models;
+using X.PagedList;
 
 namespace ThucHanh4.Controllers
 {
@@ -15,16 +16,24 @@ namespace ThucHanh4.Controllers
             _context = context;
         }
 
-        public IActionResult Index(int? mid)
+        public IActionResult Index(int? mid,int? page)
         {
-            if(mid == null)
+            if (mid == null)
             {
-                var learners = _context.Learners.Include(m => m.Major).ToList();
-                return View(learners);
+                int pageSize = 2;
+                int pageNum =  page == null || page < 0 ? 1 : page.Value;
+                var learners = _context.Learners.AsNoTracking().Include(m => m.Major).ToList();
+                PagedList<Learner> list  =  new PagedList<Learner>(learners,pageNum,pageSize);
+                return View(list);
             }
+            
             else
             {
+                int pageSize = 2;
+                int pageNum = page == null || page < 0 ? 1 : page.Value;
+               
                 var learners = _context.Learners.Where(l => l.MajorID == mid).Include(m => m.Major).ToList();
+                PagedList<Learner> list = new PagedList<Learner>(learners, pageNum, pageSize);
                 return View(learners);
             }
             
