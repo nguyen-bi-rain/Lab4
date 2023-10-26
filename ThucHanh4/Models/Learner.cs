@@ -2,6 +2,10 @@
 {
     public class Learner
     {
+        public Learner()
+        {
+            Enrollments = new HashSet<Enrollment>();
+        }
         public int LearnerID { get; set; }
         public string LastName { get; set; }
         public string FirstMidName { get; set; }

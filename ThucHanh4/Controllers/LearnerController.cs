@@ -3,6 +3,7 @@ using Microsoft.AspNetCore.Mvc.Rendering;
 using Microsoft.EntityFrameworkCore;
 using ThucHanh4.Data;
 using ThucHanh4.Models;
+using X.PagedList;
 
 namespace ThucHanh4.Controllers
 {
@@ -15,10 +16,28 @@ namespace ThucHanh4.Controllers
             _context = context;
         }
 
-        public IActionResult Index()
+        public IActionResult Index(int? mid,int? page)
         {
-            var learners = _context.Learners.Include(m => m.Major).ToList();
-            return View(learners);
+            if (mid == null)
+            {
+                int pageSize = 2;
+                int pageNum =  page == null || page < 0 ? 1 : page.Value;
+                var learners = _context.Learners.AsNoTracking().Include(m => m.Major).ToList();
+                PagedList<Learner> list  =  new PagedList<Learner>(learners,pageNum,pageSize);
+                return View(list);
+            }
+            
+            else
+            {
+                int pageSize = 2;
+                int pageNum = page == null || page < 0 ? 1 : page.Value;
+               
+                var learners = _context.Learners.Where(l => l.MajorID == mid).Include(m => m.Major).ToList();
+                PagedList<Learner> list = new PagedList<Learner>(learners, pageNum, pageSize);
+                return View(learners);
+            }
+            
+            
         }
         public IActionResult Create()
         {
@@ -67,10 +86,15 @@ namespace ThucHanh4.Controllers
             }
             ViewBag.MajorID = majors;
             ViewBag.MajorID = new SelectList(_context.Majors, "MajorID", "MajorName");
-            var learners = _context.Learners.Where(x => x.LearnerID == id).FirstOrDefault();
-            if(learners == null)
+            var learners = _context.Learners.Include(l => l.Major).Include(e => e.Enrollments).FirstOrDefault(x => x.LearnerID == id);
+
+            if (learners == null)
             {
                 return NotFound();
+            }
+            if(learners.Enrollments.Count > 0)
+            {
+                return Content("Cant delete this learner");
             }
             return View(learners);
         }
@@ -110,12 +134,12 @@ namespace ThucHanh4.Controllers
         [HttpPost]
         [ValidateAntiForgeryToken]
         public async Task<IActionResult> Edit(int id, [Bind("FirstMidName,LastName,MajorID,EnrollmentDate")] Learner learner)
-        {
+        {   
             learner.LearnerID = id;
-            //if(id != learner.LearnerID)
-            //{
-            //    return NotFound();
-            //}
+            if (id != learner.LearnerID)
+            {
+                return NotFound();
+            }
             if (ModelState.IsValid)
             {
                 try
@@ -124,12 +148,29 @@ namespace ThucHanh4.Controllers
                     await _context.SaveChangesAsync();
                 }catch(DbUpdateConcurrencyException ex)
                 {
-                    throw;
+                    if(!LearnerExist(learner.LearnerID))
+                    {
+                        return NotFound();
+                    }
+                    else
+                    {
+                        throw;
+                    }
                 }
                 return RedirectToAction(nameof(Index));
             }
             ViewBag.MajorID = new SelectList(_context.Majors, "MajorID", "MajorName", learner.MajorID);
             return View(learner);
+        }
+        private bool LearnerExist(int id)
+        {
+            return (_context.Learners?.Any(e => e.LearnerID == id)).GetValueOrDefault();
+        }
+
+        public IActionResult LearnerByMajorID(int mid)
+        {
+            var learners = _context.Learners.Where(l => l.MajorID == mid).Include(m => m.Major).ToList();
+            return PartialView("LearnerTable", learners);
         }
     }
 }

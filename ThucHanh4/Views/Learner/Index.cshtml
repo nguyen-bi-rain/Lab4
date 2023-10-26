@@ -1,31 +1,85 @@
-﻿@{
+﻿
+@{
+    ViewData["Title"] = "Index";
     Layout = "~/Views/Shared/_MyLayout.cshtml";
 }
+@using X.PagedList.Mvc.Core;
+@using X.PagedList.Web.Common;
+@model X.PagedList.IPagedList<Learner>
 
-@model IEnumerable<Learner>
-<a asp-action="Create" class="btn btn-primary">Create New Student</a>
-<table class="table table-striped">
-    <thead>
-        <tr>
-            <th>Mã</th>
-            <th>Tên</th>
-            <th>Họ</th>
-            <th>Ngành</th>
-            <th>Ngày Nhập Học</th>
-            <th>Chức năng</th>
-        </tr>
-    </thead>
-    <tbody>
-        @foreach (var s in Model)
-        {
+<h1>Learner List</h1>
+
+@await Component.InvokeAsync("Major")
+
+<div id="content">
+    <table class="table table-striped">
+        <thead>
             <tr>
-                <td>@s.LearnerID</td>
-                <td>@s.FirstMidName</td>
-                <td>@s.LastName</td>
-                <td>@s.Major.MajorName</td>
-                <td>@s.EnrollmentDate</td>
-                <td><a asp-action="Edit" asp-route-id="@s.LearnerID">Edit</a>|<a asp-action="Delete" asp-route-id="@s.LearnerID">Delete</a></td>
+                <th>Mã</th>
+                <th>Tên</th>
+                <th>Họ</th>
+                <th>Ngành</th>
+                <th>Ngày Nhập Học</th>
+                <th>Chức năng</th>
             </tr>
-        }
-    </tbody>
-</table>
+        </thead>
+        <tbody>
+            @foreach (var s in Model)
+            {
+                <tr>
+                    <td>@s.LearnerID</td>
+                    <td>@s.FirstMidName</td>
+                    <td>@s.LastName</td>
+                    <td>@s.Major.MajorName</td>
+                    <td>@s.EnrollmentDate</td>
+                    <td><a asp-action="Edit" asp-route-id="@s.LearnerID">Edit</a>|<a asp-action="Delete" asp-route-id="@s.LearnerID">Delete</a></td>
+                </tr>
+            }
+        </tbody>
+    </table>
+    <div class="col-12 pb-1">
+    <nav aria-label="Page navigation">
+        <ul class="pagination justify-content-center mb-3">
+            <li class="page-item">
+
+                @Html.PagedListPager(Model,page => Url.Action("Index","Learner",
+                new {page = page}),
+                new PagedListRenderOptions(){
+                LiElementClasses = new string[]{"page-item"},
+                PageClasses = new string[] {"page-link"}
+                })
+            </li>
+        </ul>
+    </nav>
+</div>
+</div>
+
+
+<a asp-action="Create" class="btn btn-primary">Create New Student</a>
+
+@section Scripts{
+    <script>
+        $(document).ready(function(){
+            $("li").click(function (e) {
+                var id = $(this).attr("id");
+                $.ajax({
+                    url: "/Learner/LearnerByMajorID",
+                    data: { mid: id },
+                    success: function (response) {
+                        $("div#content").html(response);
+                    }
+                });
+            });
+            $(".page-link").click(function (e){
+                var page = $(this).content();
+                $.ajax({
+                    url:"/Learner/Index",
+                    data : {page : page},
+                    success: function (response) {
+                        $("div#content").html(response);
+                    }
+                })
+            })
+        })
+    </script>
+}
